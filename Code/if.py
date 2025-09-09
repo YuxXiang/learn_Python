@@ -1,5 +1,5 @@
 import datetime
-
+import numpy as np
 
 number = 23
 guess = int(input('Enter an integer : '))
@@ -40,6 +40,10 @@ elif guess < number:
 else: 
     print('No, it is a little lower than that') 
     # 你必须通过猜测一个大于（>）设置数的数字来到达这里。 
+
+
+print(np.__version__)
+
 
 print('Done') 
 # 这最后一句语句将在 

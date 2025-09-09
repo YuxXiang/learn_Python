@@ -3,24 +3,44 @@ from PIL import Image
 from PIL.ExifTags import TAGS
 import datetime
 
-# 根据JPG文件Exif中的DateTimeOriginal（0x9003	36867）更新文件名，文件名格式：%Y%m%d-%H%M%S.JPG
+# 该脚本根据JPG文件Exif信息中的DateTimeOriginal（标记0x9003）来更新文件名。
+# 新文件名格式为：%Y%m%d-%H%M%S.JPG
+#
+# JPG文件的Exif数据是一种元数据，它包含了图像的各种信息，如拍摄时间、相机型号等。
+# DateTimeOriginal是Exif数据中的一个标准标签，用于记录图像数据生成的原始日期和时间。
+# 对于数码相机来说，这个时间通常是指照片拍摄的时间。
+# 标签ID: 0x9003 (十进制: 36867)
+# 更多关于Exif标签的信息可以参考: https://exiv2.org/tags.html
 
 
 def list_files_in_directory(directory):
+    """
+    列出指定目录下的所有*.JPG文件，并基于Exif信息中的拍摄时间重命名这些文件。
+    
+    参数:
+        directory (str): 要处理的目录路径。
+
+    说明:
+        - 该函数会遍历指定目录下的所有文件。
+        - 只处理扩展名为'.JPG'或'.jpg'的图片文件。
+        - 从每个JPG文件的Exif数据中提取DateTimeOriginal标签（标记0x9003），该标签记录了图像数据生成的原始日期和时间。
+        - 使用提取到的日期时间信息重新命名文件。
+        - 如果文件没有Exif数据，则跳过重命名操作。
+    """
     try:
+        n_files = 0  # 记录已处理文件数
 
-        n_files = 0
-
-        # 使用 os.listdir 获取指定目录下的所有文件和文件夹
+        # 使用os.listdir获取目录下所有文件和子目录列表
+        # 过滤得到仅包含文件的列表
         files = [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
 
-        # 打印文件列表
         print(f"Files in {directory}:")
+
+        # 遍历文件列表
         for file in files:
-            # 仅处理*.JPG文件
+            # 只处理扩展名为'.JPG'或'.jpg'的图片文件
             if file[-4:].upper() == '.JPG':
-                
-                print(f"File name: {file}")
+                print(f"File name: {file}
 
                 new_file_path = ""
                 
